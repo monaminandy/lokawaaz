@@ -26,11 +26,11 @@ const Hero = () => {
 
       {/* Right Section */}
       <div className=" hidden lg:flex md:mt-0">
-        <Image src="/lok.png" alt="Voting Image" width={100} height={100}/>
+        <Image src="/lok2.png" alt="Voting Image" width={400} height={400}/>
       </div>
 
       <div className=" lg:hidden flex justify-center md:mt-0">
-        <Image src="/lok.png" alt="Voting Image" width={100} height={100}/>
+        <Image src="/lok2.png" alt="Voting Image" width={400} height={400}/>
       </div>
     </div>
   );
