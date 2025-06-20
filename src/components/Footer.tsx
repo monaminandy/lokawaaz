@@ -12,7 +12,7 @@ const Footer = () => {
 
         {/* Brand */}
         <div>
-          <h2 className="text-2xl font-bold mb-4">DigiVoter</h2>
+          <h2 className="text-2xl font-bold mb-4">LokAwaaz</h2>
           <p className="text-sm">
             Empowering secure and accessible digital voting across India through Aadhaar and Face ID verification.
           </p>
@@ -60,7 +60,7 @@ const Footer = () => {
 
       {/* Bottom */}
       <div className="text-center mt-10 text-sm text-gray-600 border-t border-gray-700 pt-6">
-        © {new Date().getFullYear()} DigiVoter. All rights reserved.
+        © {new Date().getFullYear()}LokAwaaz. All rights reserved.
         <p className="mt-4 text-sm text-gray-600">Powered by Civic Auth</p>
       </div>
     </footer>

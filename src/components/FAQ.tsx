@@ -4,8 +4,8 @@ import React, { useState } from "react";
 
 const faqs = [
   {
-    question: "What is DigiVoter?",
-    answer: "DigiVoter is a secure digital voting platform that uses Aadhaar and facial recognition to verify voters remotely.",
+    question: "What is LokAwaaz?",
+    answer: "LokAwaaz is a secure digital voting platform that uses Aadhaar and facial recognition to verify voters remotely.",
   },
   {
     question: "Is my vote secure?",
