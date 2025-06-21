@@ -194,15 +194,31 @@ export default function SignupForm() {
           </LabelInputContainer>
 
           <LabelInputContainer className="mb-4">
-            <Label htmlFor="dob">Date of Birth</Label>
-            <Input
-              id="dob"
-              type="date"
-              required
-              value={formData.dob}
-              onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
-            />
-          </LabelInputContainer>
+              <Label htmlFor="dob">Date of Birth</Label>
+              <Input
+                id="dob"
+                type="date"
+                required
+                value={formData.dob}
+                onChange={(e) => {
+                  const selectedDate = new Date(e.target.value);
+                  const today = new Date();
+                  const age = today.getFullYear() - selectedDate.getFullYear();
+                  const monthDiff = today.getMonth() - selectedDate.getMonth();
+                  const dayDiff = today.getDate() - selectedDate.getDate();
+
+                  // Adjust age if birthday hasn't occurred yet this year
+                  const adjustedAge = (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) ? age - 1 : age;
+
+                  if (adjustedAge < 18) {
+                    alert("You must be at least 18 years old.");
+                    return;
+                  }
+
+                  setFormData({ ...formData, dob: e.target.value });
+                }}
+              />
+            </LabelInputContainer>
 
           <LabelInputContainer className="mb-4">
              <StateDistrictForm
