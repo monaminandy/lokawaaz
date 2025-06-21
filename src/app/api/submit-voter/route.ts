@@ -8,9 +8,18 @@ export async function POST(req: Request) {
 
     const db = await connectToDatabase();
     console.log("✅ Connected to MongoDB");
-
-    const data = await req.json();
-    const { voterId, firstName, lastName, state, district, faceVerified } = data;
+    
+    const data = req.body
+    console.log('request', req)
+    console.log('request body', data)
+    const { voterId, firstName, lastName, state, district, faceVerified } = {
+      voterId: 'asdasdasdads',
+      firstName: 'asdasdasdd',
+      lastName: 'asdasdasd',
+      state: 'asdasdasd',
+      district: 'asdasdasdasd',
+      faceVerified: 'asdasdasd'
+    }
 
     if (!voterId || !firstName || !lastName || !state || !district) {
       console.warn("❗ Missing required fields:", { voterId, firstName, lastName, state, district });
