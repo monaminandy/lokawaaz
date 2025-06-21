@@ -2,36 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 // import { verifyProof } from '@reclaimprotocol/js-sdk';
 import { ReclaimProofRequest } from '@reclaimprotocol/js-sdk';
 
-// export async function POST(req: NextRequest) {
-//   try {
-//     const rawBody = await req.text();
-//     const decodedBody = decodeURIComponent(rawBody);
-//     const proof = JSON.parse(decodedBody);
-
-//     const result = await verifyProof(proof);
-
-//     if (!result) {
-//       return NextResponse.json({ error: 'Invalid proofs data' }, { status: 400 });
-//     }
-
-//     console.log('✅ Received proofs:', proof);
-
-//     // You can save proofs to database here (optional)
-
-//     return NextResponse.json({ status: 'success' });
-//   } catch (error) {
-//     console.error('Error verifying proofs:', error);
-//     return NextResponse.json({ error: 'Failed to verify proofs' }, { status: 500 });
-//   }
-// }
-
 export async function POST(req: NextRequest) {
   try {
-    const { APP_ID, APP_SECRET, PROVIDER_ID } = {
-        APP_ID: '0xCe0ef89e5871deCADA6A3792B652DbB51E3c6F20',
-        APP_SECRET: '0xffa89242afcb972b878b5c79ee2f00bdfbe33e35d95550c6fae04ecde520a101',
-        PROVIDER_ID: '5e1302ca-a3dd-4ef8-bc25-24fcc97dc800'
-    }
+    const APP_ID = process.env.APP_ID!;
+    const APP_SECRET = process.env.APP_SECRET!;
+    const PROVIDER_ID = process.env.PROVIDER_ID!;
 
     // Initialize ReclaimProofRequest
     const reclaimProofRequest = await ReclaimProofRequest.init(
