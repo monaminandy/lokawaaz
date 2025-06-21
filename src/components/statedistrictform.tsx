@@ -15,7 +15,7 @@ export const StateDistrictForm = ({ onStateChange, onDistrictChange }: Props) =>
   const [selectedDistrict, setSelectedDistrict] = useState("");
 
   const stateDistrictMap: Record<string, string[]> = {
-    WB: ["Kolkata", "Howrah", "Darjeeling", "Burdwan"],
+    WB: ["Kolkata", "Howrah", "Darjeeling", "Birbhum"],
     MH: ["Mumbai", "Pune", "Nagpur", "Nashik"],
     DL: ["Central Delhi", "South Delhi", "North Delhi"],
     KA: ["Bangalore Urban", "Mysuru", "Mangalore"],

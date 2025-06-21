@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "server": "node server.js"
   },
   "dependencies": {
     "@ai-sdk/google": "^1.2.19",
@@ -14,10 +15,13 @@
     "@civic/auth": "^0.8.0",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-scroll-area": "^1.2.9",
+    "@reclaimprotocol/js-sdk": "^4.2.0",
     "@tabler/icons-react": "^3.34.0",
     "ai": "^4.3.16",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
     "lucide-react": "^0.522.0",
     "mongodb": "^6.17.0",
     "motion": "^12.18.1",
@@ -26,6 +30,7 @@
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
     "react-markdown": "^10.1.0",
+    "react-qr-code": "^2.0.16",
     "react-webcam": "^7.2.0",
     "remark-gfm": "^4.0.1",
     "tailwind-merge": "^3.3.1"
