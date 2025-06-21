@@ -1,59 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
 // import { verifyProof } from '@reclaimprotocol/js-sdk';
+import { ReclaimProofRequest } from '@reclaimprotocol/js-sdk';
 
 export async function POST(req: NextRequest) {
   try {
-    let body: any;
+    // Get the raw body as text first
+    const rawBody = await req.text();
     
-    // Check the content type to determine how to parse the body
-    const contentType = req.headers.get('content-type') || '';
+    console.log('Raw request body:', rawBody);
     
-    if (contentType.includes('application/json')) {
-      // Parse as JSON
-      body = await req.json();
-    } else if (contentType.includes('application/x-www-form-urlencoded')) {
-      // Parse as URL-encoded form data
-      const formData = await req.formData();
-      const urlEncodedData = formData.get('data') as string;
+    let body;
+    
+    // Check if the body is URL-encoded
+    if (rawBody.includes('%')) {
+      // Decode URL-encoded data
+      const decodedBody = decodeURIComponent(rawBody);
+      console.log('Decoded body:', decodedBody);
       
-      if (urlEncodedData) {
-        try {
-          // Decode the URL-encoded data
-          const decodedData = decodeURIComponent(urlEncodedData);
-          body = JSON.parse(decodedData);
-        } catch (parseError) {
-          console.error('Error parsing URL-encoded data:', parseError);
-          return NextResponse.json(
-            { success: false, error: 'Invalid URL-encoded data format' },
-            { status: 400 }
-          );
-        }
-      } else {
-        // Try to parse the entire form data as JSON
-        const formDataObj: any = {};
-        for (const [key, value] of formData.entries()) {
-          formDataObj[key] = value;
-        }
-        body = formDataObj;
-      }
+      // Parse the decoded JSON
+      body = JSON.parse(decodedBody);
     } else {
-      // Try to parse as text first, then as JSON
-      const text = await req.text();
-      try {
-        body = JSON.parse(text);
-      } catch (textError) {
-        // If that fails, try URL decoding
-        try {
-          const decodedText = decodeURIComponent(text);
-          body = JSON.parse(decodedText);
-        } catch (decodeError) {
-          console.error('Error parsing request body:', decodeError);
-          return NextResponse.json(
-            { success: false, error: 'Unable to parse request body' },
-            { status: 400 }
-          );
-        }
-      }
+      // Parse as regular JSON
+      body = JSON.parse(rawBody);
     }
     
     console.log('Received proofs from Reclaim:', body);
