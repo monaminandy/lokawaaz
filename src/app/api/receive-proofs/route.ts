@@ -26,22 +26,34 @@ export async function POST(req: NextRequest) {
     
     console.log('Received proofs from Reclaim:', body);
     
-    // Handle the incoming proofs data
-    // The body should contain the verification proofs from Reclaim
-    const { proofs, sessionId, status } = body;
+    // Handle the Reclaim protocol format
+    // The body contains the proof data directly with properties like:
+    // - identifier, claimData, signatures, witnesses, publicData
+    const { identifier, claimData, signatures, witnesses, publicData } = body;
     
     // Validate that we received the expected data
-    if (!proofs) {
+    if (!identifier || !claimData || !signatures) {
       return NextResponse.json(
-        { success: false, error: 'No proofs received' },
+        { success: false, error: 'Invalid proof format - missing required fields' },
         { status: 400 }
       );
     }
     
     // Process the proofs here
-    // You can add your verification logic here
-    console.log('Processing proofs for session:', sessionId);
-    console.log('Proofs data:', proofs);
+    console.log('Processing proofs for identifier:', identifier);
+    console.log('Claim data:', claimData);
+    console.log('Signatures:', signatures);
+    console.log('Witnesses:', witnesses);
+    
+    // Extract useful information from claimData
+    let extractedParams = {};
+    try {
+      const context = JSON.parse(claimData.context);
+      extractedParams = context.extractedParameters || {};
+      console.log('Extracted parameters:', extractedParams);
+    } catch (error) {
+      console.warn('Could not parse context from claimData:', error);
+    }
     
     // Store or process the proofs as needed
     // For example, you might want to:
@@ -53,8 +65,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ 
       success: true, 
       message: 'Proofs received successfully',
-      sessionId,
-      status 
+      identifier,
+      extractedParams,
+      timestamp: claimData.timestampS,
+      status: 'completed'
     });
     
   } catch (error: any) {
