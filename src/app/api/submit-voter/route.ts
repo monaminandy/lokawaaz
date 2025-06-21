@@ -9,17 +9,19 @@ export async function POST(req: Request) {
     const db = await connectToDatabase();
     console.log("✅ Connected to MongoDB");
     
-    const data = req.body
-    console.log('request', req)
-    console.log('request body', data)
-    const { voterId, firstName, lastName, state, district, faceVerified } = {
-      voterId: 'asdasdasdads',
-      firstName: 'asdasdasdd',
-      lastName: 'asdasdasd',
-      state: 'asdasdasd',
-      district: 'asdasdasdasd',
-      faceVerified: 'asdasdasd'
-    }
+    // Parse FormData from the request
+    const formData = await req.formData();
+    const voterId = formData.get('voterId') as string;
+    const firstName = formData.get('firstName') as string;
+    const middleName = formData.get('middleName') as string;
+    const lastName = formData.get('lastName') as string;
+    const email = formData.get('email') as string;
+    const dob = formData.get('dob') as string;
+    const state = formData.get('state') as string;
+    const district = formData.get('district') as string;
+    const phone = formData.get('phone') as string;
+
+    console.log('Received form data:', { voterId, firstName, lastName, state, district, email, dob, phone });
 
     if (!voterId || !firstName || !lastName || !state || !district) {
       console.warn("❗ Missing required fields:", { voterId, firstName, lastName, state, district });
@@ -47,10 +49,14 @@ export async function POST(req: Request) {
     const result = await db.collection('voters').insertOne({
       voterId,
       firstName,
+      middleName,
       lastName,
+      email,
+      dob,
       state,
       district,
-      faceVerified: !!faceVerified,
+      phone,
+      faceVerified: false,
       hasVoted: false,  // ✅ default is false
       createdAt: new Date(),
     });

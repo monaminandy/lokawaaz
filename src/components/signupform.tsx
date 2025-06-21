@@ -26,7 +26,6 @@ export default function SignupForm() {
     state: '',
     district: '',
     phone: '',
-    aadhaar: null as File | null,
   });
 
   const [proofs, setProofs] = useState<any>(null);
@@ -53,11 +52,6 @@ export default function SignupForm() {
       return;
     }
 
-    if (!formData.aadhaar) {
-      //alert('❗ Please upload your Aadhaar card.');
-      return;
-    }
-
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('voterId', formData.voterId);
@@ -69,24 +63,10 @@ export default function SignupForm() {
       formDataToSend.append('state', formData.state);
       formDataToSend.append('district', formData.district);
       formDataToSend.append('phone', formData.phone);
-      formDataToSend.append('aadhaar', formData.aadhaar);
 
       const response = await fetch('/api/submit-voter', {
         method: 'POST',
         body: formDataToSend
-        // body: JSON.stringify({
-        //   voterId: formData.voterId,
-        //   firstName: formData.firstName,
-        //   middleName: formData.middleName,
-        //   lastName: formData.lastName,
-        //   email: formData.email,
-        //   dob: formData.dob,
-        //   state: formData.state,
-        //   district: formData.district,
-        //   phone: formData.phone,
-        //   aadhaar: formData.aadhaar
-
-        // }),
       });
 
       const result = await response.json();
