@@ -1,41 +1,57 @@
 import { NextRequest, NextResponse } from 'next/server';
 // import { verifyProof } from '@reclaimprotocol/js-sdk';
-import { ReclaimProofRequest } from '@reclaimprotocol/js-sdk';
 
 export async function POST(req: NextRequest) {
   try {
-    const APP_ID = process.env.APP_ID!;
-    const APP_SECRET = process.env.APP_SECRET!;
-    const PROVIDER_ID = process.env.PROVIDER_ID!;
-
-    // Initialize ReclaimProofRequest
-    const reclaimProofRequest = await ReclaimProofRequest.init(
-      APP_ID,
-      APP_SECRET,
-      PROVIDER_ID
-    );
-
-    // Trigger the verification flow
-    await reclaimProofRequest.triggerReclaimFlow();
-
-    // Start session and listen for proofs
-    const proofs = await new Promise((resolve, reject) => {
-      reclaimProofRequest.startSession({
-        onSuccess: (proofs) => {
-          console.log('Verification successful:', proofs);
-          resolve(proofs);
-        },
-        onError: (error) => {
-          console.error('Verification failed', error);
-          reject(error);
-        },
-      });
+    // Parse the incoming request body
+    const body = await req.json();
+    
+    console.log('Received proofs from Reclaim:', body);
+    
+    // Handle the incoming proofs data
+    // The body should contain the verification proofs from Reclaim
+    const { proofs, sessionId, status } = body;
+    
+    // Validate that we received the expected data
+    if (!proofs) {
+      return NextResponse.json(
+        { success: false, error: 'No proofs received' },
+        { status: 400 }
+      );
+    }
+    
+    // Process the proofs here
+    // You can add your verification logic here
+    console.log('Processing proofs for session:', sessionId);
+    console.log('Proofs data:', proofs);
+    
+    // Store or process the proofs as needed
+    // For example, you might want to:
+    // - Store them in a database
+    // - Verify them against your requirements
+    // - Update user verification status
+    
+    // Return success response
+    return NextResponse.json({ 
+      success: true, 
+      message: 'Proofs received successfully',
+      sessionId,
+      status 
     });
-
-    // Respond with proofs
-    return NextResponse.json({ success: true, proofs });
+    
   } catch (error: any) {
-    console.error('Error in verification:', error);
-    return NextResponse.json({ success: false, error: error.message });
+    console.error('Error processing proofs:', error);
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
   }
+}
+
+// Also handle GET requests for health checks
+export async function GET(req: NextRequest) {
+  return NextResponse.json({ 
+    success: true, 
+    message: 'Proofs endpoint is active' 
+  });
 }
