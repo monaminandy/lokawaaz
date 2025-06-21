@@ -54,7 +54,7 @@ export default function SignupForm() {
     }
 
     if (!formData.aadhaar) {
-      alert('❗ Please upload your Aadhaar card.');
+      //alert('❗ Please upload your Aadhaar card.');
       return;
     }
 
