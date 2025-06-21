@@ -90,7 +90,8 @@ export default function SignupForm() {
       });
 
       const result = await response.json();
-
+      console.log('Result:', result);
+      console.log('Result JSON:',response.json);
       if (response.ok) {
         console.log('✅ Submitted to DB:', result);
         localStorage.setItem('voterId', formData.voterId);
